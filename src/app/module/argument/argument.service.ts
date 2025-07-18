@@ -1,7 +1,13 @@
 import Argument from "./argument.model";
 import { IArgument } from "./argument.interface";
+import Debate from "../debate/debate.model";
 
 const createArgument = async (data: IArgument) => {
+   const debate = await Debate.findById(data.debateId);
+if(!debate) throw new Error("Debate not found");
+if(new Date()> debate.endsAt){
+  throw new Error("Debate is closed. cannot post arguments");
+}
   const argument = new Argument(data);
   return await argument.save();
 };
