@@ -17,3 +17,4 @@ router.post(
   validateRequest(registerSchema),
   catchAsync(registerUser)
 );
+export const UserRoutes = router;
