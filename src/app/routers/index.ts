@@ -1,5 +1,9 @@
 import { Router } from "express";
 import { UserRoutes } from "../module/user/user.route";
+import { ArgumentRoutes } from "../module/argument/argument.route";
+import { VotingRoutes } from "../module/voting/voting.route";
+import { ScoreboardRoutes } from "../module/scoreBoard/scoreBoard.route";
+import { DebateRoutes } from "../module/debate/debate.route";
 
 
 const router = Router();
@@ -11,6 +15,22 @@ const moduleROuters = [
         route: UserRoutes,
     
     },
+    {
+        path:"/argument",
+        route:ArgumentRoutes
+    },
+    {
+        path:"/vote",
+        route:VotingRoutes
+    },
+    {
+        path:"/score",
+        route:ScoreboardRoutes
+    },
+    {
+        path:"/debate",
+        route:DebateRoutes
+    }
    
     
 ]
