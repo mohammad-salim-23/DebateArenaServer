@@ -1,10 +1,15 @@
 import { Request, Response } from "express";
 import { DebateServices } from "./debate.service";
 import { sendResponse } from "../../utils/sendResponse";
-
 const createDebate = async (req: Request, res: Response) => {
   const userId = req.user?.userId;
-  const data = { ...req.body, createdBy: userId };
+
+  let imageUrl = "";
+  if (req.file) {
+    imageUrl = `${req.protocol}://${req.get("host")}/uploads/debates/${req.file.filename}`;
+  }
+
+  const data = { ...req.body, createdBy: userId, image: imageUrl };
   const debate = await DebateServices.createDebate(data);
 
   sendResponse(res, {

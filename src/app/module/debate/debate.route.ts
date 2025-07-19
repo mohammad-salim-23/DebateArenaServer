@@ -3,12 +3,14 @@ import auth from "../../middlewares/auth";
 import catchAsync from "../../utils/catchAsync";
 import { DebateControllers } from "./debate.controller";
 import { USER_ROLE } from "../../../types/global";
+import { upload } from "../../../middleware/upload";
 
 const router = express.Router();
 
 router.post(
   "/",
   auth(USER_ROLE.USER),
+   upload.single("image"),
   catchAsync(DebateControllers.createDebate)
 );
 
