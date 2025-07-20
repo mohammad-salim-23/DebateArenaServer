@@ -16,7 +16,7 @@ const moduleROuters = [
     
     },
     {
-        path:"/argument",
+        path:"/arguments",
         route:ArgumentRoutes
     },
     {
@@ -28,11 +28,10 @@ const moduleROuters = [
         route:ScoreboardRoutes
     },
     {
-        path:"/debate",
+        path:"/debates",
         route:DebateRoutes
     }
    
-    
 ]
 moduleROuters.forEach((route) => router.use(route.path, route.route));
 export default router;

@@ -1,10 +1,15 @@
 import Debate from "./debate.model";
 import { IDebate } from "./debate.interface";
+import mongoose from "mongoose";
 
 const createDebate = async (data: IDebate) => {
   const endsAt = new Date();
-  endsAt.setHours(endsAt.getHours() + data.duration);
-  const debate = new Debate({ ...data, endsAt });
+  endsAt.setHours(endsAt.getHours() + data.duration); 
+
+  // Convert createdBy to ObjectId if it's a string
+  const createdByObjectId = new mongoose.Types.ObjectId(data.createdBy);
+
+  const debate = new Debate({ ...data, createdBy: createdByObjectId, endsAt });
   return await debate.save();
 };
 
@@ -12,6 +17,9 @@ const getAllDebates = async () => {
   return await Debate.find().populate("createdBy", "username email");
 };
 
+const getDebateById = async (debateId: string) => {
+  return await Debate.findById(debateId).populate("createdBy", "username email");
+};
 const joinDebate = async (debateId: string, userId: string, side: "support" | "oppose") => {
   const debate = await Debate.findById(debateId);
   if (!debate) return null;
@@ -35,5 +43,6 @@ const joinDebate = async (debateId: string, userId: string, side: "support" | "o
 export const DebateServices = {
   createDebate,
   getAllDebates,
+  getDebateById,
   joinDebate,
 };

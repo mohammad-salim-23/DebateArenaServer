@@ -6,6 +6,7 @@ import { USER_ROLE } from "../../../types/global";
 
 const router = express.Router();
 
-router.post("/:id/vote", auth(USER_ROLE.USER), catchAsync(VotingControllers.voteArgument));
+router.post("/:id", auth(USER_ROLE.USER), catchAsync(VotingControllers.voteArgument));
 
 export const VotingRoutes = router;
+

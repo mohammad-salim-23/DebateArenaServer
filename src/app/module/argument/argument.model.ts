@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 import { IArgument } from "./argument.interface";
 
 const argumentSchema = new Schema<IArgument>(
@@ -8,6 +8,7 @@ const argumentSchema = new Schema<IArgument>(
     side: { type: String, enum: ["support", "oppose"], required: true },
     content: { type: String, required: true },
     votes: { type: Number, default: 0 },
+    votedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

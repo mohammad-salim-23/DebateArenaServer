@@ -10,17 +10,21 @@ const router = express.Router();
 router.post(
   "/",
   auth(USER_ROLE.USER),
-   upload.single("image"),
-  catchAsync(DebateControllers.createDebate)
+  
+  (DebateControllers.createDebate)
 );
 
 
 router.get(
   "/",
-  auth(USER_ROLE.USER),
+
   catchAsync(DebateControllers.getAllDebates)
 );
-
+router.get(
+  "/:id",
+ 
+  catchAsync(DebateControllers.getDebateById)
+);
 router.post(
   "/join/:id",
   auth(USER_ROLE.USER),

@@ -1,15 +1,33 @@
 import { Request, Response } from "express";
 import { DebateServices } from "./debate.service";
 import { sendResponse } from "../../utils/sendResponse";
-const createDebate = async (req: Request, res: Response) => {
+import catchAsync from "../../utils/catchAsync";
+
+const createDebate = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user?.userId;
 
-  let imageUrl = "";
-  if (req.file) {
-    imageUrl = `${req.protocol}://${req.get("host")}/uploads/debates/${req.file.filename}`;
+  // Parse tags to array
+  const tagsArray = req.body.tags
+    ? req.body.tags.split(",").map((t: string) => t.trim())
+    : [];
+
+  const duration = parseFloat(req.body.duration);
+  if (isNaN(duration) || duration <= 0) {
+    return sendResponse(res, {
+      statusCode: 400,
+      success: false,
+      message: "Invalid duration provided",
+      data: null,
+    });
   }
 
-  const data = { ...req.body, createdBy: userId, image: imageUrl };
+  const data = {
+    ...req.body,
+    createdBy: userId,
+    tags: tagsArray,
+    duration,
+  };
+
   const debate = await DebateServices.createDebate(data);
 
   sendResponse(res, {
@@ -18,8 +36,7 @@ const createDebate = async (req: Request, res: Response) => {
     message: "Debate created",
     data: debate,
   });
-};
-
+});
 const getAllDebates = async (req: Request, res: Response) => {
   const debates = await DebateServices.getAllDebates();
 
@@ -28,6 +45,28 @@ const getAllDebates = async (req: Request, res: Response) => {
     success: true,
     message: "All debates fetched",
     data: debates,
+  });
+};
+
+const getDebateById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const debate = await DebateServices.getDebateById(id);
+
+  if (!debate) {
+    return sendResponse(res, {
+      statusCode: 404,
+      success: false,
+      message: "Debate not found",
+      data: null,
+    });
+  }
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Debate fetched successfully",
+    data: debate,
   });
 };
 
@@ -75,4 +114,5 @@ export const DebateControllers = {
   createDebate,
   getAllDebates,
   joinDebate,
+  getDebateById
 };

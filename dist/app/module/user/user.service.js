@@ -14,42 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserServices = void 0;
 const user_model_1 = __importDefault(require("./user.model"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-// Register User
-const registerUserIntoDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password, shopNames } = data;
-    // Check if username already exists
-    const existingUser = yield user_model_1.default.findOne({ username });
-    if (existingUser) {
-        throw new Error("Username already taken");
-    }
-    // Check for unique shop names globally
-    const existingShop = yield user_model_1.default.findOne({ shopNames: { $in: shopNames } });
-    if (existingShop) {
-        throw new Error("One or more shop names already taken");
-    }
-    //Hash password
-    const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-    const user = new user_model_1.default({
-        username,
-        password: hashedPassword,
-        shopNames,
-    });
-    return yield user.save();
-});
-//Login User
-const loginUserFromDB = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield user_model_1.default.findOne({ username });
-    if (!user) {
-        throw new Error("Invalid username or password");
-    }
-    const isPasswordMatch = yield bcrypt_1.default.compare(password, user.password);
-    if (!isPasswordMatch) {
-        throw new Error("Incorrect password");
-    }
-    return user;
+const createUser = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield user_model_1.default.create(data);
 });
 exports.UserServices = {
-    registerUserIntoDB,
-    loginUserFromDB,
+    createUser,
 };

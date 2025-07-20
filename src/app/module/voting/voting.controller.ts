@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { VotingServices } from "./voting.service";
+
 import { sendResponse } from "../../utils/sendResponse";
+import { votingServices } from "./voting.service";
 
 const voteArgument = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -15,7 +16,7 @@ const voteArgument = async (req: Request, res: Response) => {
     });
   }
 
-  const argument = await VotingServices.voteArgument(id, userId);
+  const argument = await votingServices.voteArgument(id, userId);
   if (!argument) {
     return sendResponse(res, {
       statusCode: 404,

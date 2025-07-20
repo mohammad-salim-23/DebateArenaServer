@@ -7,6 +7,7 @@ export interface IArgument {
   side: "support" | "oppose";
   content: string;
   votes: number;
+   votedUsers:Types.ObjectId[];
   createdAt?: Date;
   updatedAt?: Date;
 }
