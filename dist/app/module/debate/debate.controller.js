@@ -19,11 +19,6 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const createDebate = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
-    console.log("Uploaded file info:", req.file);
-    let imageUrl = "";
-    if (req.file) {
-        imageUrl = `/debates/${req.file.filename}`;
-    }
     // Parse tags to array
     const tagsArray = req.body.tags
         ? req.body.tags.split(",").map((t) => t.trim())
@@ -37,7 +32,7 @@ const createDebate = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
             data: null,
         });
     }
-    const data = Object.assign(Object.assign({}, req.body), { createdBy: userId, image: imageUrl, tags: tagsArray, duration });
+    const data = Object.assign(Object.assign({}, req.body), { createdBy: userId, tags: tagsArray, duration });
     const debate = yield debate_service_1.DebateServices.createDebate(data);
     (0, sendResponse_1.sendResponse)(res, {
         statusCode: 201,

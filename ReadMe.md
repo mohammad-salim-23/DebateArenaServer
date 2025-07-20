@@ -1,151 +1,105 @@
-Dr.Tech Server
-This is the backend server for the Dr.Tech medical appointment management system. It handles authentication, doctor availability, patient bookings, and appointment workflows.
+# 🗣️ Debate Arena
 
-✨ Tech Stack
-Node.js
+Debate Arena is an online platform to create debates, contribute arguments, and cast votes on various topics to encourage constructive discussion.
 
-Express.js
+🔗 **Live Site:** [https://debatearenafrontend.vercel.app/](https://debatearenafrontend.vercel.app/)
 
-TypeScript
+📂 **Frontend Repository:** [GitHub - Debate Arena Frontend](https://github.com/mohammad-salim-23/DebateArenaFrontend)
 
-MongoDB + Mongoose
+---
 
-Zod (for request validation)
+## ✨ **Features**
 
-JWT (for secure authentication)
+✅ User authentication with **NextAuth**  
+✅ Create new debates with title, description, tags, category, and duration  
+✅ Upload images for debates  
+✅ Browse all debates with filtering, searching, sorting, and pagination  
+✅ View detailed debate pages  
+✅ Post arguments supporting or opposing a debate  
+✅ Vote on arguments  
+✅ Responsive and clean UI
 
-bcryptjs (for password hashing)
+---
 
-⚙️ Setup Instructions
-1. Clone the Repository
-bash
-Copy
-Edit
-git clone https://github.com/mohammad-salim-23/Dr.TechtaskServer
-cd Dr.TechtaskServer
+## ⚙️ **Tech Stack**
 
-2. Install Dependencies
+- **Next.js** (React Framework)
+- **TypeScript** (type safety)
+- **Tailwind CSS** (styling)
+- **NextAuth** (authentication)
+- **Axios** (API requests)
+- **Node.js & Express** (backend)
+- **MongoDB + Mongoose** (database)
+
+---
+
+## 🚀 **Getting Started**
+
+### 1. **Clone the repository**
+
+```bash
+git clone https://github.com/mohammad-salim-23/DebateArenaFrontend.git
+cd DebateArenaFrontend
+2. Install dependencies
 
 npm install
-
-3. Environment Variables
-Create a .env file in the project root with the following content:
+3. Configure environment variables
+Create a .env.local file in the project root with:
 
 env
+NEXT_PUBLIC_BASE_API=your_backend_api_url
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret
+Replace with your actual backend API URL and secrets.
 
-NODE_ENV=development
-PORT=5000
-DATABASE_URL=your_mongodb_connection_string
-JWT_SECRET=your_secure_secret
+4. Run the project
 
-4. Run the Server
-Development Mode:
-npm run start:dev
+npm run dev
+The app will run locally at: http://localhost:3000
 
-Production Build:
-npm run build
-npm run start:prod
-The server will run at: http://localhost:5000
+🔐 Authentication
+Users can sign up or log in via NextAuth.
 
-👤 Default Admin User
-Username: Dr.Tech
+JWT tokens are used for secure API access.
 
-Password: salim123
-
-⚠️ You must manually insert this admin user into the users collection if not created already.
-
-🔐 Authentication Notes
-You must login to access any protected route (doctor, patient, or admin).
-
-Once logged in, a JWT token is returned. This must be passed in the Authorization header in Postman or any client like so:
-
-makefile
-
-Authorization: Bearer <your_token_here>
-Only one active login per user is allowed. If a user is already logged in, they must log out before logging in again (use /api/auth/logout).
-
-🚀 API Endpoints
-✉️ Auth Routes
-POST /api/auth/register-doctor
-
-POST /api/auth/register-patient
-
-POST /api/auth/login
-
-POST /api/auth/logout
-
-🏥 Doctor (Public View)
-GET /api/doctors — Browse doctors (with filters by hospital, specialization, service)
-
-GET /api/doctors/:id — View individual doctor profile with services and availability
-
-👨‍⚕️ Doctor Panel (Protected - Requires Doctor Login)
-POST /api/doctor/services — Add new service
-
-PATCH /api/doctor/services/:id — Edit existing service
-
-DELETE /api/doctor/services/:id — Delete service
-
-POST /api/doctor/availability — Set availability
-
-GET /api/doctor/appointments — View appointment requests (optionally filter by status)
-
-PATCH /api/doctor/appointments/:id/status?status=accepted|cancelled — Update appointment status
-
-👩‍⚕️ Patient Panel (Protected - Requires Patient Login)
-POST /api/appointments — Book an appointment
-
-GET /api/patient/appointments — View patient's own appointments
-
-🧑‍💼 Admin Panel (Protected - Requires Admin Login)
-GET /api/admin/allcollections — View total doctors, patients, and appointments
-
-📃 Pagination (Bonus)
-GET /api/auth/pagination?page=1&limit=10 — Paginate doctor appointments
-
-🚫 Error Handling Format
-All errors are globally handled and returned in this format:
+Protected routes require login.
 
 
-{
-  "success": false,
-  "message": "Error message",
-  "errorDetails": "Stack trace if in development mode"
-}
 
-// Example global error handler
-const globalErrorHandler = (
-  err: any,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-
-  res.status(statusCode).json({
-    success: false,
-    message,
-    errorDetails: process.env.NODE_ENV === "development" ? err.stack : undefined,
-  });
-};
-
-export default globalErrorHandler;
 🌐 Deployment
-This project is deployable on any Node.js environment.
-
-Example placeholder link (replace when deployed):
-
-https://dr-tech-server.vercel.app
-
-🚧 Future Improvements
-🔔 Email notifications (on appointment request and acceptance)
-
-📊 Admin dashboard UI
-
-📆 Enhanced time slot conflict validation
+This project is deployed on Vercel:
+➡️ https://debatearenafrontend.vercel.app/
 
 👨‍💻 Author
 Mohammad Salim
-mohammadsalim017427@gmail.com
-If you face any issues setting up or using the API, feel free to open an issue or reach out.
+Email
+
+If you face any issues setting up or using this project, feel free to open an issue or contact me directly.
+
+🚧 Future Improvements
+🗳️ Real-time voting updates with Socket.io
+
+🏷️ Debate categorization and featured debates
+
+🔔 Email notifications for debate participation
+
+📊 Admin dashboard for debate management
+
+💬 Comments on arguments
+
+Made with ❤️ by Mohammad Salim
+
+yaml
+Copy
+Edit
+
+---
+
+###  **What this includes**
+- Clean structure with emoji for readability  
+- Project overview, features, tech stack  
+- Setup instructions  
+- Author details  
+- Future improvements section
+
+If you need a **matching backend `README.md` template** for Debate Arena to maintain project consistency, let me know anytime.
